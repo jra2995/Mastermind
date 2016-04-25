@@ -97,6 +97,7 @@ public class Game {
 	}
 	
 	public String evaluateGuess(String guess){
+		historyOfGuesses.add(guess);
 		String copyCode = secretCode;
 		String result1 = checkBlackPegs(guess);
 		int numBlackPegs = calculateNumBlackPegs(result1);
@@ -113,18 +114,23 @@ public class Game {
 		
 		if(numBlackPegs == 0 && numWhitePegs == 0){
 			answer = answer + "No pegs";
+			historyOfPegs.add("No Pegs");
 		}
 		else if(numBlackPegs == 0){
 			answer = answer + numWhitePegs + " white pegs";
+			historyOfPegs.add(numWhitePegs + " white pegs");
 		}
 		else if(numWhitePegs == 0){
 			answer = answer + numBlackPegs + " black pegs";
+			historyOfPegs.add(numBlackPegs + " black pegs");
 		}
 		else{
 			answer = answer + numBlackPegs + " black pegs and " + numWhitePegs + " white pegs";
+			historyOfPegs.add(numBlackPegs + " black pegs and " + numWhitePegs + " white pegs");
 		}
 		
 		secretCode = copyCode;
+		numGuesses -= 1;
 		return answer;
 	}
 	
