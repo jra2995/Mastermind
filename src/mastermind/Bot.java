@@ -9,10 +9,18 @@ package mastermind;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * Bot handles the input and output logic for the game (short for robot)
+ * @author jra2995
+ * @version 1.00
+ */
 public class Bot {
-	
+	// Scanner for user input
 	public static Scanner scan = new Scanner(System.in);
 	
+	/**
+	 * Displays the intro message for the game
+	 */
 	public static void displayIntro(){
 		System.out.println("Welcome to Mastermind.  Here are the rules.\n" + 
 			"This is a text version of the classic board game\n" + 
@@ -36,9 +44,16 @@ public class Bot {
 			"code or you lose the game.\n");
 	}
 	
+	/**
+	 * Prompts the user if they are ready to play or not
+	 * @return true if they are ready to play (yes) or false if not (no)
+	 */
 	public static boolean promptUserStart(){
+		// Prompts the user for their response, Y/N are valid
 		System.out.println("Are you ready to play? (Y/N)");
 		String response = scan.nextLine();
+		
+		// If Y, return true, else N return false and wave goodbye
 		if(response.equalsIgnoreCase("Y")){
 			return true;
 		}
@@ -47,6 +62,8 @@ public class Bot {
 			return false;
 		}
 		else{
+			// Or if the input is invalid, cycle through until we get
+			// the correct input, either Y or N
 			while(!response.equalsIgnoreCase("Y") || !response.equalsIgnoreCase("N")){
 				System.out.println("Error - Invalid Input. Please try again.\n" + 
 					"Are you ready to play? (Y/N)");
@@ -66,10 +83,18 @@ public class Bot {
 		return false;
 	}
 	
+	/**
+	 * Prompt the user for a guess
+	 * @param numGuesses the number of guesses in the game
+	 * @param repeat if the guess was invalid, display a different prompt
+	 * @return the guess the user has entered, invalid or otherwise
+	 */
 	public static String promptGuess(int numGuesses, boolean repeat){
-		Scanner scan = new Scanner(System.in);
 		String response;
+		
+		// If repeated prompt, display different prompt message
 		if(!repeat){
+			// Prompt for next guess
 			System.out.println("You have " + numGuesses + " guesses left.");
 			System.out.println("What is your next guess?\nType in the " + 
 				"characters for your guess and press enter (or type <history>)");
@@ -78,6 +103,7 @@ public class Bot {
 			System.out.println("");
 		}
 		else{
+			// Guess was invalid, so prompt for another guess
 			System.out.println("Error - Your previous guess was invalid. Please try again.\n");
 			System.out.println("You have " + numGuesses + " guesses left.");
 			System.out.println("What is your next guess?\nType in the " + 
@@ -91,6 +117,12 @@ public class Bot {
 		return response;
 	}
 	
+	/**
+	 * Based on the guess, if it equals "history", then return a boolean
+	 * appropriately
+	 * @param guess the guess entered by the user
+	 * @return true if the guess was actually "history" command, false otherwise
+	 */
 	public static boolean checkForHistory(String guess){
 		if(guess.equalsIgnoreCase("history")){
 			return true;
@@ -100,8 +132,15 @@ public class Bot {
 		}
 	}
 	
+	/**
+	 * Prompt the user if they want to make any customization options
+	 * @param repeat if one customization has already been made, repeat is true
+	 * otherwise it's false
+	 * @return true if any customization should be made, false if not
+	 */
 	public static boolean promptUserCustomization(boolean repeat){
-		Scanner scan = new Scanner(System.in);
+		// Prompt for customization, change the prompt based on multiple
+		// prompts
 		System.out.print("Would you like to customize the game");
 		if(repeat){
 			System.out.println(" again (Y/N): ");
@@ -109,16 +148,18 @@ public class Bot {
 		else{
 			System.out.println(" now (Y/N): ");
 		}
+		
+		// Get the user input, and check if it's valid Y/N
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Y")){
-			
 			return true;
 		}
 		else if(response.equalsIgnoreCase("N")){
-			
 			return false;
 		}
 		else{
+			// Otherwise cycle until we get valid input Y/N to the
+			// prompt
 			while(!response.equalsIgnoreCase("Y") || !response.equalsIgnoreCase("N")){
 				System.out.print("Error - Invalid Input. Please try again.\n" + 
 					"Would you like to customize the game");
@@ -130,11 +171,9 @@ public class Bot {
 				}
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Y")){
-					
 					return true;
 				}
 				else if(response.equalsIgnoreCase("N")){
-					
 					return false;
 				}
 			}
@@ -143,8 +182,11 @@ public class Bot {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static String customizationOptionMenu(){
-		Scanner scan = new Scanner(System.in);
 		System.out.println("How would you like to customize the game?\nValid responses: " + 
 			"<Number of Guesses>, <Code Length>, or <Number of Colors>:");
 		String response = scan.nextLine();
@@ -186,7 +228,7 @@ public class Bot {
 	}
 	
 	public static ArrayList<Character> moreColors(ArrayList<Character> oldColors){
-		Scanner scan = new Scanner(System.in);
+		
 		boolean proceed = true;
 		int num = 0;
 		do{
@@ -200,7 +242,10 @@ public class Bot {
 					if(num > 26 - oldColors.size()){
 						System.out.println("Error - Number can only be up to " + (26 - oldColors.size() + " more"));
 					}
-				}while(num > 26 - oldColors.size());
+					else if(num < 0){
+						System.out.println("Error - Can't be negative answer");
+					}
+				}while(num > 26 - oldColors.size() || num < 0);
 			}
 			catch(NumberFormatException nfe){
 				System.out.println("Error - Invalid Input. Only integers are acceptable.");
@@ -234,7 +279,7 @@ public class Bot {
 	}
 	
 	public static int changeCodeLength(){
-		Scanner scan = new Scanner(System.in);
+		
 		//System.out.println("What new length would you like to change the code to?: ");
 		boolean proceed = true;
 		int num = 0;
@@ -264,7 +309,7 @@ public class Bot {
 	}
 	
 	public static int changeNumGuesses(){
-		Scanner scan = new Scanner(System.in);
+		
 		//System.out.println("How many guesses would you like to have?: ");
 		boolean proceed = true;
 		int num = 0;
