@@ -37,6 +37,9 @@ public class Game {
 		validColors.add('P');
 		validColors.add('R');
 		validColors.add('Y');
+	}
+	
+	public void generateSecretCode(){
 		Random rand = new Random();
 		for(int i = 0; i < codeLength; i++){
 			secretCode.concat(validColors.get(rand.nextInt(validColors.size())).toString());
