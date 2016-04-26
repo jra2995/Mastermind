@@ -41,13 +41,23 @@ public class Game {
 	
 	public void generateSecretCode(){
 		Random rand = new Random();
+		char[] code = new char[codeLength];
 		for(int i = 0; i < codeLength; i++){
-			secretCode.concat(validColors.get(rand.nextInt(validColors.size())).toString());
+			code[i] = validColors.get(rand.nextInt(validColors.size()));
 		}
+		secretCode = new String(code);
 	}
 	
 	public void setNumGuesses(int g){
 		numGuesses = g;
+	}
+	
+	public void setValidColors(ArrayList<Character> ac){
+		validColors = new ArrayList<Character>(ac);
+	}
+	
+	public ArrayList<Character> getValidColors(){
+		return validColors;
 	}
 	
 	public void addColor(char c){
@@ -140,6 +150,12 @@ public class Game {
 	public String testOutput(String originalCode){
 		String output = "The secret code is : " + originalCode + ". The edited code is " + secretCode;
 		return output;
+	}
+	
+	public void reset(){
+		historyOfGuesses = new ArrayList<String>();
+		historyOfPegs = new ArrayList<String>();
+		numGuesses = 12;
 	}
 	
 	private String checkBlackPegs(String guess){

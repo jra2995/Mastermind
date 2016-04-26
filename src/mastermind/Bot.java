@@ -10,61 +10,62 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Bot {
+	
+	public static Scanner scan = new Scanner(System.in);
+	
 	public static void displayIntro(){
-		System.out.println("Welcome to Mastermind.  Here are the rules." + 
-			"This is a text version of the classic board game " + 
-			"Mastermind. The computer will think of a secret " + 
-			"code. The code consists of 4 colored pegs. The pegs " + 
-			"may be one of six colors: Blue, Green, Orange, Purple, " + 
-			"Red, or Yellow. A color may appear more than once in " + 
-			"the code. You try to guess what colored pegs are in " + 
-			"the code and what order they are in.   After you make " + 
-			"a valid guess the result (feedback) will be " + 
-			"displayed. The result consists of a black peg for " + 
-			"each peg you have guessed exactly correct (color and " + 
-			"position) in your guess.  For each peg in the guess " + 
-			"that is the correct color, but is out of position, " + 
-			"you get a white peg.  For each peg, which is fully " + 
-			"incorrect, you get no feedback. Only the first letter " + 
-			"of the color is displayed. B for Blue, R for Red, and " + 
-			"so forth. When entering guesses you only need to " + 
-			"enter the first character of each color as a capital " + 
-			"letter. You have 12 guesses to figure out the secret " + 
-			"code or you lose the game.");
+		System.out.println("Welcome to Mastermind.  Here are the rules.\n" + 
+			"This is a text version of the classic board game\n" + 
+			"Mastermind. The computer will think of a secret\n" + 
+			"code. The code consists of 4 colored pegs. The pegs\n" + 
+			"may be one of six colors: Blue, Green, Orange, Purple,\n" + 
+			"Red, or Yellow. A color may appear more than once in\n" + 
+			"the code. You try to guess what colored pegs are in\n" + 
+			"the code and what order they are in. After you make\n" + 
+			"a valid guess the result (feedback) will be\n" + 
+			"displayed. The result consists of a black peg for\n" + 
+			"each peg you have guessed exactly correct (color and\n" + 
+			"position) in your guess. For each peg in the guess\n" + 
+			"that is the correct color, but is out of position,\n" + 
+			"you get a white peg. For each peg, which is fully\n" + 
+			"incorrect, you get no feedback. Only the first letter\n" + 
+			"of the color is displayed. B for Blue, R for Red, and\n" + 
+			"so forth. When entering guesses you only need to\n" + 
+			"enter the first character of each color as a capital\n" + 
+			"letter. You have 12 guesses to figure out the secret\n" + 
+			"code or you lose the game.\n");
 	}
 	
 	public static boolean promptUserStart(){
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Are you ready to play? (Y/N)\n");
+		System.out.println("Are you ready to play? (Y/N)");
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Y")){
-			System.out.println("Generating secret code....\n");
-			scan.close();
+			System.out.println("\nGenerating secret code....\n");
 			return true;
 		}
 		else if(response.equalsIgnoreCase("N")){
 			System.out.println("Goodbye!");
-			scan.close();
 			return false;
 		}
 		else{
 			while(!response.equalsIgnoreCase("Y") || !response.equalsIgnoreCase("N")){
 				System.out.println("Error - Invalid Input. Please try again.\n" + 
-					"Are you ready to play? (Y/N)\n");
+					"Are you ready to play? (Y/N)");
 				response = scan.nextLine();
+				System.out.println("");
 				if(response.equalsIgnoreCase("Y")){
 					System.out.println("Generating secret code....\n");
-					scan.close();
+					
 					return true;
 				}
 				else if(response.equalsIgnoreCase("N")){
 					System.out.println("Goodbye!");
-					scan.close();
+					
 					return false;
 				}
 			}
 		}
-		scan.close();
+		
 		return false;
 	}
 	
@@ -72,23 +73,34 @@ public class Bot {
 		Scanner scan = new Scanner(System.in);
 		String response;
 		if(!repeat){
-			System.out.println("You have " + numGuesses + " left.\n");
+			System.out.println("You have " + numGuesses + " guesses left.");
 			System.out.println("What is your next guess?\nType in the " + 
 				"characters for your guess and press enter");
-			System.out.println("Enter guess: ");
+			System.out.print("Enter guess: ");
 			response = scan.nextLine();
+			System.out.println("");
 		}
 		else{
 			System.out.println("Error - Your previous guess was invalid. Please try again.\n");
-			System.out.println("You have " + numGuesses + " left.\n");
+			System.out.println("You have " + numGuesses + " guesses left.");
 			System.out.println("What is your next guess?\nType in the " + 
 				"characters for your guess and press enter");
 			System.out.println("Enter guess: ");
 			response = scan.nextLine();
+			System.out.println("");
 		}
 		
-		scan.close();
+		
 		return response;
+	}
+	
+	public static boolean checkForHistory(String guess){
+		if(guess.equalsIgnoreCase("history")){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	public static boolean promptUserCustomization(){
@@ -96,11 +108,11 @@ public class Bot {
 		System.out.println("Would you like to customize the game now (Y/N)\n");
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Y")){
-			scan.close();
+			
 			return true;
 		}
 		else if(response.equalsIgnoreCase("N")){
-			scan.close();
+			
 			return false;
 		}
 		else{
@@ -109,16 +121,16 @@ public class Bot {
 					"Would you like to customize the game now? (Y/N)\n");
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Y")){
-					scan.close();
+					
 					return true;
 				}
 				else if(response.equalsIgnoreCase("N")){
-					scan.close();
+					
 					return false;
 				}
 			}
 		}
-		scan.close();
+		
 		return false;
 	}
 	
@@ -128,15 +140,15 @@ public class Bot {
 			"<Number of Guesses>, <Code Length>, or <Number of Colors>:\n");
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Number of Guesses")){
-			scan.close();
+			
 			return response;
 		}
 		else if(response.equalsIgnoreCase("Code Length")){
-			scan.close();
+			
 			return response;
 		}
 		else if(response.equalsIgnoreCase("Number of Colors")){
-			scan.close();
+			
 			return response;
 		}
 		else{
@@ -147,20 +159,20 @@ public class Bot {
 						"<Number of Guesses>, <Code Length>, or <Number of Colors>:\n");
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Number of Guesses")){
-					scan.close();
+					
 					return response;
 				}
 				else if(response.equalsIgnoreCase("Code Length")){
-					scan.close();
+					
 					return response;
 				}
 				else if(response.equalsIgnoreCase("Number of Colors")){
-					scan.close();
+					
 					return response;
 				}
 			}
 		}
-		scan.close();
+		
 		return "";
 	}
 	
@@ -208,7 +220,7 @@ public class Bot {
 				}
 			}
 		}
-		scan.close();
+		
 		return oldColors;
 	}
 	
@@ -235,7 +247,7 @@ public class Bot {
 				proceed = false;
 			}
 		}while(!proceed);
-		scan.close();
+		
 		return num;
 	}
 	
@@ -261,11 +273,32 @@ public class Bot {
 				proceed = false;
 			}
 		}while(!proceed);
-		scan.close();
+		
 		return num;
 	}
 	
 	public static void displayResult(String guess, String output){
 		System.out.println(guess + " -> " + output);
+	}
+	
+	public static void displayVictory(){
+		System.out.println("\nVictory is yours, mastermind!\n");
+	}
+	
+	public static void displayLoss(){
+		System.out.println("\nYou lose. Guess you got outsmarted, huh?\n");
+	}
+	
+	public static void displayHistory(ArrayList<String> guesses, ArrayList<String> pegs){
+		if(guesses.size() == 0){
+			System.out.println("No History\n");
+		}
+		
+		for(int i = 0; i < guesses.size(); i++){
+			System.out.print("Guess " + (i+1) + ": " + guesses.get(i));
+			System.out.println(" -> " + pegs.get(i));
+		}
+		
+		System.out.println("");
 	}
 }
