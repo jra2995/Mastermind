@@ -1,3 +1,9 @@
+/**
+ * Jett Anderson
+ * EID: jra2995
+ * Bonus Assignment - Mastermind Game
+ */
+
 package mastermind;
 
 import java.util.Scanner;
@@ -32,10 +38,12 @@ public class Bot {
 		System.out.println("Are you ready to play? (Y/N)\n");
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Y")){
+			System.out.println("Generating secret code....\n");
 			scan.close();
 			return true;
 		}
 		else if(response.equalsIgnoreCase("N")){
+			System.out.println("Goodbye!");
 			scan.close();
 			return false;
 		}
@@ -45,10 +53,12 @@ public class Bot {
 					"Are you ready to play? (Y/N)\n");
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Y")){
+					System.out.println("Generating secret code....\n");
 					scan.close();
 					return true;
 				}
 				else if(response.equalsIgnoreCase("N")){
+					System.out.println("Goodbye!");
 					scan.close();
 					return false;
 				}
@@ -56,6 +66,29 @@ public class Bot {
 		}
 		scan.close();
 		return false;
+	}
+	
+	public static String promptGuess(int numGuesses, boolean repeat){
+		Scanner scan = new Scanner(System.in);
+		String response;
+		if(!repeat){
+			System.out.println("You have " + numGuesses + " left.\n");
+			System.out.println("What is your next guess?\nType in the " + 
+				"characters for your guess and press enter");
+			System.out.println("Enter guess: ");
+			response = scan.nextLine();
+		}
+		else{
+			System.out.println("Error - Your previous guess was invalid. Please try again.\n");
+			System.out.println("You have " + numGuesses + " left.\n");
+			System.out.println("What is your next guess?\nType in the " + 
+				"characters for your guess and press enter");
+			System.out.println("Enter guess: ");
+			response = scan.nextLine();
+		}
+		
+		scan.close();
+		return response;
 	}
 	
 	public static boolean promptUserCustomization(){
@@ -230,5 +263,9 @@ public class Bot {
 		}while(!proceed);
 		scan.close();
 		return num;
+	}
+	
+	public static void displayResult(String guess, String output){
+		System.out.println(guess + " -> " + output);
 	}
 }
