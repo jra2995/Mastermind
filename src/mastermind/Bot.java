@@ -40,7 +40,6 @@ public class Bot {
 		System.out.println("Are you ready to play? (Y/N)");
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Y")){
-			System.out.println("\nGenerating secret code....\n");
 			return true;
 		}
 		else if(response.equalsIgnoreCase("N")){
@@ -54,8 +53,6 @@ public class Bot {
 				response = scan.nextLine();
 				System.out.println("");
 				if(response.equalsIgnoreCase("Y")){
-					System.out.println("Generating secret code....\n");
-					
 					return true;
 				}
 				else if(response.equalsIgnoreCase("N")){
@@ -75,7 +72,7 @@ public class Bot {
 		if(!repeat){
 			System.out.println("You have " + numGuesses + " guesses left.");
 			System.out.println("What is your next guess?\nType in the " + 
-				"characters for your guess and press enter");
+				"characters for your guess and press enter (or type <history>)");
 			System.out.print("Enter guess: ");
 			response = scan.nextLine();
 			System.out.println("");
@@ -84,7 +81,7 @@ public class Bot {
 			System.out.println("Error - Your previous guess was invalid. Please try again.\n");
 			System.out.println("You have " + numGuesses + " guesses left.");
 			System.out.println("What is your next guess?\nType in the " + 
-				"characters for your guess and press enter");
+				"characters for your guess and press enter (or type <history>)");
 			System.out.println("Enter guess: ");
 			response = scan.nextLine();
 			System.out.println("");
@@ -103,9 +100,15 @@ public class Bot {
 		}
 	}
 	
-	public static boolean promptUserCustomization(){
+	public static boolean promptUserCustomization(boolean repeat){
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Would you like to customize the game now (Y/N)\n");
+		System.out.print("Would you like to customize the game");
+		if(repeat){
+			System.out.println(" again (Y/N): ");
+		}
+		else{
+			System.out.println(" now (Y/N): ");
+		}
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Y")){
 			
@@ -117,8 +120,14 @@ public class Bot {
 		}
 		else{
 			while(!response.equalsIgnoreCase("Y") || !response.equalsIgnoreCase("N")){
-				System.out.println("Error - Invalid Input. Please try again.\n" + 
-					"Would you like to customize the game now? (Y/N)\n");
+				System.out.print("Error - Invalid Input. Please try again.\n" + 
+					"Would you like to customize the game");
+				if(repeat){
+					System.out.println(" again (Y/N): ");
+				}
+				else{
+					System.out.println(" now (Y/N): ");
+				}
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Y")){
 					
@@ -137,7 +146,7 @@ public class Bot {
 	public static String customizationOptionMenu(){
 		Scanner scan = new Scanner(System.in);
 		System.out.println("How would you like to customize the game?\nValid responses: " + 
-			"<Number of Guesses>, <Code Length>, or <Number of Colors>:\n");
+			"<Number of Guesses>, <Code Length>, or <Number of Colors>:");
 		String response = scan.nextLine();
 		if(response.equalsIgnoreCase("Number of Guesses")){
 			
@@ -156,7 +165,7 @@ public class Bot {
 				!response.equalsIgnoreCase("Code Length") || !response.equalsIgnoreCase("Number of Colors")){
 				System.out.println("Error - Invalid Input. Please try again.\n");
 				System.out.println("How would you like to customize the game?\nValid responses: " + 
-						"<Number of Guesses>, <Code Length>, or <Number of Colors>:\n");
+						"<Number of Guesses>, <Code Length>, or <Number of Colors>:");
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Number of Guesses")){
 					
@@ -184,7 +193,7 @@ public class Bot {
 			try{
 				do{
 					System.out.println("How many colors would you like to add? Note: Up to " + 
-							(26 - oldColors.size()) + " More\n");
+							(26 - oldColors.size()) + " More");
 					String response = scan.nextLine();
 					num = Integer.parseInt(response);
 					proceed = true;
@@ -201,7 +210,7 @@ public class Bot {
 		
 		for(int i = 0; i < num; i++){
 			System.out.println("What color would you like to add? <Valid input are Strings, though " + 
-				"only the first character will be used, if possible.>:\n");
+				"only the first character will be used, if possible.>:");
 			String color = scan.nextLine();
 			char c = color.toUpperCase().charAt(0);
 			if(!oldColors.contains(c)){
@@ -210,10 +219,10 @@ public class Bot {
 			}
 			else{
 				char start = 'A';
-				for(int j = 0; j < 26; j++){
-					if(!oldColors.contains(start + j)){
-						oldColors.add(c);
-						System.out.println(color + " will now be represented by " + ((char)(start + j)) + ", as " + 
+				for(char j = start; j < start + 26; j++){
+					if(!oldColors.contains(j)){
+						oldColors.add(j);
+						System.out.println(color + " will now be represented by " + j + ", as " + 
 							c + " is taken already.");
 						break;
 					}
@@ -226,21 +235,24 @@ public class Bot {
 	
 	public static int changeCodeLength(){
 		Scanner scan = new Scanner(System.in);
-		System.out.println("What new length would you like to change the code to?: ");
+		//System.out.println("What new length would you like to change the code to?: ");
 		boolean proceed = true;
 		int num = 0;
 		do{
 			try{
 				do{
 					System.out.println("How many long would you like the code to be? Note: Up to " + 
-							"26 Letters\n");
+							"26 Letters");
 					String response = scan.nextLine();
 					num = Integer.parseInt(response);
 					proceed = true;
 					if(num > 26){
-						System.out.println("Error - Number can only be up to 26 more");
+						System.out.println("Error - Number can only be up to 26");
 					}
-				}while(num > 26);
+					else if(num < 1){
+						System.out.println("Error - Code has to be at least one letter long.");
+					}
+				}while(num > 26 || num < 1);
 			}
 			catch(NumberFormatException nfe){
 				System.out.println("Error - Invalid Input. Only integers are acceptable.");
@@ -253,7 +265,7 @@ public class Bot {
 	
 	public static int changeNumGuesses(){
 		Scanner scan = new Scanner(System.in);
-		System.out.println("How many guesses would you like to have?: ");
+		//System.out.println("How many guesses would you like to have?: ");
 		boolean proceed = true;
 		int num = 0;
 		do{
@@ -300,5 +312,9 @@ public class Bot {
 		}
 		
 		System.out.println("");
+	}
+	
+	public static void displayGeneration(){
+		System.out.println("Generating secret code...\n");
 	}
 }

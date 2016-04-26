@@ -14,11 +14,18 @@ public class Driver {
 		Bot.displayIntro();
 		
 		do{
-			Game theGame = new Game(true);
+			Game theGame = new Game();
 			
-			boolean customize = Bot.promptUserCustomization();
+			play = Bot.promptUserStart();
 			
-			if(customize){
+			if(!play){
+				System.exit(0);
+				Bot.scan.close();
+			}
+			
+			boolean customize = Bot.promptUserCustomization(false);
+			
+			while(customize){
 				String option = Bot.customizationOptionMenu();
 				if(option.equalsIgnoreCase("Number of Guesses")){
 					int num = Bot.changeNumGuesses();
@@ -31,16 +38,12 @@ public class Driver {
 				else if(option.equalsIgnoreCase("Number of Colors")){
 					theGame.setValidColors(Bot.moreColors(theGame.getValidColors()));
 				}
-			}
-			
-			play = Bot.promptUserStart();
-			
-			if(!play){
-				System.exit(0);
-				Bot.scan.close();
+				
+				customize = Bot.promptUserCustomization(true);
 			}
 			
 			theGame.generateSecretCode();
+			Bot.displayGeneration();
 			
 			while(theGame.getNumGuesses() > 0){
 				String guess = Bot.promptGuess(theGame.getNumGuesses(), false);
@@ -51,6 +54,10 @@ public class Driver {
 				boolean isValid = theGame.validGuess(guess);
 				while(!isValid){
 					guess = Bot.promptGuess(theGame.getNumGuesses(), true);
+					if(Bot.checkForHistory(guess)){
+						Bot.displayHistory(theGame.getHistoryOfGuesses(), theGame.getHistoryOfPegs());
+						continue;
+					}
 					isValid = theGame.validGuess(guess);
 				}
 				
