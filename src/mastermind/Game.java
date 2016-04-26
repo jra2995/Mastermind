@@ -11,26 +11,51 @@ import java.util.Random;
 
 public class Game {
 	
+	// Holds the secret code and code length for this game of Mastermind
 	private String secretCode;
 	private int codeLength;
+	
+	// Holds the history of guesses and black and white peg outputs based on the valid inputs 
+	// from the user
 	private ArrayList<String> historyOfGuesses;
 	private ArrayList<String> historyOfPegs;
+	
+	// Holds the total number of guesses allowed for the game
 	private int numGuesses;
+	
+	// Determines if the secret code should be revealed for debugging purposes or not
 	private boolean testing;
+	
+	// Holds the characters representing the valid colors for the code's pegs
 	private ArrayList<Character> validColors;
 	
+	/**
+	 * Default constructor that will run a game in non-debug mode
+	 */
 	public Game(){
 		this(false);
 	}
 	
+	/**
+	 * Based on the boolean input b, will run a game of mastermind in either debug mode
+	 * or non-debug mode. 
+	 * @param b is the boolean determining debug mode - true equals debug mode, false equals 
+	 * non-debug mode
+	 */
 	public Game(boolean b){
 		testing = b;
+		
+		// Default number of guesses is 12
 		numGuesses = 12;
+		
+		// Default code length is 4
 		codeLength = 4;
 		secretCode = "";
 		historyOfGuesses = new ArrayList<String>();
 		historyOfPegs = new ArrayList<String>();
 		validColors = new ArrayList<Character>();
+		
+		// Default colors are Blue, Orange, Green, Purple, Red, and Yellow
 		validColors.add('B');
 		validColors.add('O');
 		validColors.add('G');
@@ -39,23 +64,43 @@ public class Game {
 		validColors.add('Y');
 	}
 	
+	/**
+	 * Generates the secret code for this game using a random number generator
+	 * and the valid colors for the game's code
+	 */
 	public void generateSecretCode(){
 		Random rand = new Random();
 		char[] code = new char[codeLength];
+		
+		// Creates a code of length code length into a character array
 		for(int i = 0; i < codeLength; i++){
 			code[i] = validColors.get(rand.nextInt(validColors.size()));
 		}
+		
+		// And then converts that code to a String representation
 		secretCode = new String(code);
 	}
 	
+	/**
+	 * Sets the new number of guesses
+	 * @param g the new number of guesses
+	 */
 	public void setNumGuesses(int g){
 		numGuesses = g;
 	}
 	
+	/**
+	 * Sets valid colors to the new list of valid colors
+	 * @param ac the new list of valid colors
+	 */
 	public void setValidColors(ArrayList<Character> ac){
 		validColors = new ArrayList<Character>(ac);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<Character> getValidColors(){
 		return validColors;
 	}
