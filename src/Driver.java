@@ -4,7 +4,6 @@
  * Bonus Assignment - Mastermind Game
  */
 
-package mastermind;
 
 /**
  * Driver is the main logic for input, output, and game logic that

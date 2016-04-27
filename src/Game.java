@@ -4,7 +4,6 @@
  * Bonus Assignment - Mastermind Game
  */
 
-package mastermind; 
 
 import java.util.ArrayList;
 import java.util.Random;
