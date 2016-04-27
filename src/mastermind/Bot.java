@@ -183,26 +183,30 @@ public class Bot {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Brings up a customization menu based that will return the option
+	 * of either changing the number of guesses, code length, and number
+	 * of colors. 
+	 * @return String that represents which customization option will happen
 	 */
 	public static String customizationOptionMenu(){
+		// Prompts the user how they want to customize the game
 		System.out.println("How would you like to customize the game?\nValid responses: " + 
 			"<Number of Guesses>, <Code Length>, or <Number of Colors>:");
 		String response = scan.nextLine();
+		
+		// Returns the response if it is a valid customization option
 		if(response.equalsIgnoreCase("Number of Guesses")){
-			
 			return response;
 		}
 		else if(response.equalsIgnoreCase("Code Length")){
-			
 			return response;
 		}
 		else if(response.equalsIgnoreCase("Number of Colors")){
-			
 			return response;
 		}
 		else{
+			// Otherwise cycle until we get a valid response for 
+			// customization and print out error message
 			while(!response.equalsIgnoreCase("Number of Guesses") || 
 				!response.equalsIgnoreCase("Code Length") || !response.equalsIgnoreCase("Number of Colors")){
 				System.out.println("Error - Invalid Input. Please try again.\n");
@@ -210,15 +214,12 @@ public class Bot {
 						"<Number of Guesses>, <Code Length>, or <Number of Colors>:");
 				response = scan.nextLine();
 				if(response.equalsIgnoreCase("Number of Guesses")){
-					
 					return response;
 				}
 				else if(response.equalsIgnoreCase("Code Length")){
-					
 					return response;
 				}
 				else if(response.equalsIgnoreCase("Number of Colors")){
-					
 					return response;
 				}
 			}
@@ -227,18 +228,33 @@ public class Bot {
 		return "";
 	}
 	
+	/**
+	 * Handles adding more colors to the program through input prompts
+	 * and output error messages
+	 * @param oldColors the colors currently used for the game
+	 * @return the new colors array list
+	 */
 	public static ArrayList<Character> moreColors(ArrayList<Character> oldColors){
-		
+		// Variable that will determine if we can begin adding to the 
+		// array list based on user input
 		boolean proceed = true;
 		int num = 0;
+		
+		// Cycle through until we get correct input
 		do{
+			// Catch any errors in input
 			try{
+				// While the number of colors added is negative or more than
+				// supported, keep trying to get input
 				do{
+					// Prompt for number of colors to add
 					System.out.println("How many colors would you like to add? Note: Up to " + 
 							(26 - oldColors.size()) + " More");
 					String response = scan.nextLine();
 					num = Integer.parseInt(response);
 					proceed = true;
+					
+					// Print out errors in adding colors
 					if(num > 26 - oldColors.size()){
 						System.out.println("Error - Number can only be up to " + (26 - oldColors.size() + " more"));
 					}
@@ -253,16 +269,22 @@ public class Bot {
 			}
 		}while(!proceed);
 		
+		// Cycle through the number of colors to add
 		for(int i = 0; i < num; i++){
+			// Prompt for a new color
 			System.out.println("What color would you like to add? <Valid input are Strings, though " + 
 				"only the first character will be used, if possible.>:");
 			String color = scan.nextLine();
 			char c = color.toUpperCase().charAt(0);
+			
+			// If the first letter of the new color hasn't been used,
+			// add it to the list of colors
 			if(!oldColors.contains(c)){
 				oldColors.add(c);
 				System.out.println(color + " will now be represented by " + c + ".");
 			}
 			else{
+				// Otherwise cycle through the alphabet until we find an unused letter
 				char start = 'A';
 				for(char j = start; j < start + 26; j++){
 					if(!oldColors.contains(j)){
@@ -278,19 +300,28 @@ public class Bot {
 		return oldColors;
 	}
 	
+	/**
+	 * Input/output to handle changing the code length for the game
+	 * @return the int number to change the code length to
+	 */
 	public static int changeCodeLength(){
-		
-		//System.out.println("What new length would you like to change the code to?: ");
 		boolean proceed = true;
 		int num = 0;
+		
+		// Cycle until we get correct input with no errors 
 		do{
 			try{
+				// Cycle until we get an appropriate number for the 
+				// code length 
 				do{
+					// Prompt for input
 					System.out.println("How many long would you like the code to be? Note: Up to " + 
 							"26 Letters");
 					String response = scan.nextLine();
 					num = Integer.parseInt(response);
 					proceed = true;
+					
+					// Catch if the number is greater than 26 or less than 1 (unplayable)
 					if(num > 26){
 						System.out.println("Error - Number can only be up to 26");
 					}
@@ -308,18 +339,28 @@ public class Bot {
 		return num;
 	}
 	
+	/**
+	 * Input/Output to handle changing the number of guesses for the game
+	 * @return the new number of guesses for the game
+	 */
 	public static int changeNumGuesses(){
-		
-		//System.out.println("How many guesses would you like to have?: ");
 		boolean proceed = true;
 		int num = 0;
+		
+		// Cycle through until we don't have any actual errors with  
+		// input
 		do{
 			try{
+				// Cycle until we get a number that is equal to or more
+				// than one. Less than one guess makes the game unplayable
 				do{
+					// Prompt for number of guesses
 					System.out.println("How many guesses would you like to have?");
 					String response = scan.nextLine();
 					num = Integer.parseInt(response);
 					proceed = true;
+					
+					// 0 or negative input will make the game unplayable, so catch it
 					if(num < 1){
 						System.out.println("Error - You Must At Least Have One Guess");
 					}
@@ -334,23 +375,43 @@ public class Bot {
 		return num;
 	}
 	
+	/**
+	 * display the result for the guess to the console
+	 * @param guess the current guess for the game
+	 * @param output the output associated with the guess
+	 */
 	public static void displayResult(String guess, String output){
 		System.out.println(guess + " -> " + output);
 	}
 	
+	/**
+	 * Congratulates the user after a victory
+	 */
 	public static void displayVictory(){
 		System.out.println("\nVictory is yours, mastermind!\n");
 	}
 	
+	/**
+	 * Taunts the user after a loss
+	 */
 	public static void displayLoss(){
 		System.out.println("\nYou lose. Guess you got outsmarted, huh?\n");
 	}
 	
+	/**
+	 * Displays the history of the current game
+	 * @param guesses the valid guesses for the user's game so far
+	 * @param pegs the B&W output pegs for corresponding guesses
+	 */
 	public static void displayHistory(ArrayList<String> guesses, ArrayList<String> pegs){
+		// If there are no guesses in the list, there haven't been 
+		// any valid guesses yet, so there's no history
 		if(guesses.size() == 0){
 			System.out.println("No History\n");
 		}
 		
+		// Cycles through the list of guesses and displays the guess
+		// and output for each combination
 		for(int i = 0; i < guesses.size(); i++){
 			System.out.print("Guess " + (i+1) + ": " + guesses.get(i));
 			System.out.println(" -> " + pegs.get(i));
@@ -359,6 +420,10 @@ public class Bot {
 		System.out.println("");
 	}
 	
+	/**
+	 * Display generation message for the program following 
+	 * secret code generation
+	 */
 	public static void displayGeneration(){
 		System.out.println("Generating secret code...\n");
 	}
